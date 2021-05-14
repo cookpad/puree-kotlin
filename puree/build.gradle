@@ -1,0 +1,100 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.dokka' version "1.4.32"
+}
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+    }
+
+    sourceSets {
+        test {
+            java.srcDirs += "src/sharedTest/java"
+        }
+        androidTest {
+            java.srcDirs += "src/sharedTest/java"
+        }
+    }
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+            returnDefaultValues = true
+        }
+    }
+}
+
+dokkaHtml.configure {
+    outputDirectory.set(new File(rootDir, "docs/api"))
+    dokkaSourceSets {
+        named("main") {
+            noAndroidSdkLink.set(false)
+        }
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_version"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    api 'androidx.lifecycle:lifecycle-process:2.3.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    def room_version = '2.3.0'
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'com.google.truth:truth:1.1.2'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_version"
+    testImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.3.1'
+    testImplementation 'org.json:json:20210307'
+    testImplementation 'androidx.test:core:1.3.0'
+    testImplementation 'org.robolectric:robolectric:4.5.1'
+    testImplementation 'io.mockk:mockk:1.11.0'
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+
+    androidTestImplementation 'androidx.test:runner:1.3.0'
+    androidTestImplementation 'androidx.test:rules:1.3.0'
+    androidTestImplementation 'com.google.truth:truth:1.1.2'
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlin_version") {
+        exclude group: "org.jetbrains.kotlinx", module: "kotlinx-coroutines-debug"
+    }
+    androidTestImplementation 'androidx.lifecycle:lifecycle-runtime-testing:2.3.1'
+    androidTestImplementation 'androidx.test:core:1.3.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+}

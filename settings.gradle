@@ -1,0 +1,2 @@
+include ':puree', ':demo'
+rootProject.name = "puree-kotlin"
