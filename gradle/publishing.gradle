@@ -1,0 +1,65 @@
+ext.publication = [:]
+ext.publication.version = [
+        'major': '1',
+        'minor': '0',
+        'patch': '0',
+]
+ext.publication.versionName = "${publication.version.major}.${publication.version.minor}.${publication.version.patch}"
+ext.publication.groupId = 'com.cookpad'
+ext.publication.artifactId = 'puree-kotlin'
+ext.publication.description = 'Puree-kotlin is a log collector for Android'
+ext.publication.url = 'https://github.com/cookpad/puree-kotlin'
+ext.publication.license = 'MIT'
+ext.publication.licenseUrl = 'https://opensource.org/licenses/mit-license'
+ext.publication.licenseDistribbution = 'repo'
+ext.publication.developer = 'Cookpad Inc.'
+ext.publication.scm = 'https://github.com/cookpad/puree-kotlin'
+
+task sourceJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from android.sourceSets.main.java.srcDirs
+}
+
+task dokkaJar(type: Jar, dependsOn: dokkaJavadoc) {
+    archiveClassifier.set("javadoc")
+    from dokkaJavadoc.outputDirectory
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = publication.groupId
+                artifactId = publication.artifactId
+                version = publication.versionName
+
+                artifact(sourceJar)
+                artifact(dokkaJar)
+
+                pom {
+                    name = publication.artifactId
+                    description = publication.description
+                    url = publication.url
+                    licenses {
+                        license {
+                            name = publication.license
+                            url = publication.licenseUrl
+                            distribution = publication.licenseDistribution
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = publication.developer
+                        }
+                    }
+                    scm {
+                        url = publication.scm
+                    }
+                }
+            }
+        }
+    }
+}
+
