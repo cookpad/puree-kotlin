@@ -1,3 +1,6 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
 ext.publication = [:]
 ext.publication.version = [
         'major': '1',
@@ -33,7 +36,11 @@ afterEvaluate {
 
                 groupId = publication.groupId
                 artifactId = publication.artifactId
-                version = publication.versionName
+                if (System.getenv("PUBLISH_SNAPSHOT")?.toBoolean()) {
+                    version = "$publication.versionName-SNAPSHOT"
+                } else {
+                    version = publication.versionName
+                }
 
                 artifact(sourceJar)
                 artifact(dokkaJar)
@@ -60,6 +67,29 @@ afterEvaluate {
                 }
             }
         }
+
+        repositories {
+            maven {
+                if (System.getenv("PUBLISH_SNAPSHOT")?.toBoolean()) {
+                    url = "https://oss.sonatype.org/content/repositories/snapshots/"
+                } else {
+                    url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                }
+                credentials {
+                    username = System.getenv("OSSRH_USERNAME")
+                    password = System.getenv("OSSRH_PASSWORD")
+                }
+            }
+        }
     }
 }
 
+signing {
+    if (!System.getenv("PUBLISH_SNAPSHOT")?.toBoolean()) {
+        useInMemoryPgpKeys(
+                new String(System.getenv("SIGNING_KEY")?.decodeBase64() ?: ""),
+                System.getenv("SIGNING_PASSPHRASE"),
+        )
+        sign(publishing.publications)
+    }
+}

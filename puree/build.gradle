@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'org.jetbrains.dokka' version "$dokkaVersion"
-    id 'maven-publish'
 }
 
 apply from: '../gradle/publishing.gradle'
