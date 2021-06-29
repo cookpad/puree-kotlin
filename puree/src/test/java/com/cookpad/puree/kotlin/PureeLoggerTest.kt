@@ -68,7 +68,7 @@ class PureeLoggerTest {
         puree.postLog(SampleLog(sequence = 1))
 
         // then
-        verify { filter.applyFilter(any()) }
+        verify(exactly = 0) { filter.applyFilter(any()) }
         verify {
             output.emit(logSlot.captured)
             bufferedOutput.emit(logSlot.captured)
