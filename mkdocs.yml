@@ -1,0 +1,18 @@
+site_name: Puree-Kotlin
+site_author: Cookpad
+site_description: Logging library for Android
+site_url: https://github.com/epishie/puree-kotlin
+
+repo_name: dokka
+repo_url: https://github.com/cookpad/puree-kotlin
+
+copyright: 'Copyright &copy; 2021 Cookpad Inc.'
+
+nav:
+  - Overview: README.md
+  - API Documentation: api/index.html
+
+theme:
+  name: 'material'
+  palette:
+    primary: orange
