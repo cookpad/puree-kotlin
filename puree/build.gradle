@@ -66,6 +66,13 @@ dokkaHtml.configure {
             noAndroidSdkLink.set(false)
         }
     }
+    def pluginConfig = """
+{
+    "customStyleSheets": ["${new File(rootDir, "docs/assets/logo-styles.css")}"],
+    "customAssets": ["${new File(rootDir, "docs/assets/logo.png")}"]
+}
+"""
+    pluginsMapConfiguration.set(["org.jetbrains.dokka.base.DokkaBase": pluginConfig])
 }
 
 dependencies {
