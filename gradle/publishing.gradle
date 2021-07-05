@@ -1,0 +1,95 @@
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+ext.publication = [:]
+ext.publication.version = [
+        'major': '1',
+        'minor': '0',
+        'patch': '0',
+]
+ext.publication.versionName = "${publication.version.major}.${publication.version.minor}.${publication.version.patch}"
+ext.publication.groupId = 'com.cookpad.puree-kotlin'
+ext.publication.artifactId = 'puree-kotlin'
+ext.publication.description = 'Puree-kotlin is a log collector for Android'
+ext.publication.url = 'https://github.com/cookpad/puree-kotlin'
+ext.publication.license = 'MIT'
+ext.publication.licenseUrl = 'https://opensource.org/licenses/mit-license'
+ext.publication.licenseDistribbution = 'repo'
+ext.publication.developer = 'Cookpad Inc.'
+ext.publication.scm = 'https://github.com/cookpad/puree-kotlin'
+
+task sourceJar(type: Jar) {
+    archiveClassifier.set("sources")
+    from android.sourceSets.main.java.srcDirs
+}
+
+task dokkaJar(type: Jar, dependsOn: dokkaJavadoc) {
+    archiveClassifier.set("javadoc")
+    from dokkaJavadoc.outputDirectory
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+
+                groupId = publication.groupId
+                artifactId = publication.artifactId
+                if (System.getenv("PUBLISH_SNAPSHOT")?.toBoolean()) {
+                    version = "$publication.versionName-SNAPSHOT"
+                } else {
+                    version = publication.versionName
+                }
+
+                artifact(sourceJar)
+                artifact(dokkaJar)
+
+                pom {
+                    name = publication.artifactId
+                    description = publication.description
+                    url = publication.url
+                    licenses {
+                        license {
+                            name = publication.license
+                            url = publication.licenseUrl
+                            distribution = publication.licenseDistribution
+                        }
+                    }
+                    developers {
+                        developer {
+                            name = publication.developer
+                        }
+                    }
+                    scm {
+                        url = publication.scm
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                if (System.getenv("PUBLISH_SNAPSHOT")?.toBoolean()) {
+                    url = "https://oss.sonatype.org/content/repositories/snapshots/"
+                } else {
+                    url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+                }
+                credentials {
+                    username = System.getenv("OSSRH_USERNAME")
+                    password = System.getenv("OSSRH_PASSWORD")
+                }
+            }
+        }
+    }
+}
+
+signing {
+    if (!System.getenv("PUBLISH_SNAPSHOT")?.toBoolean()) {
+        useInMemoryPgpKeys(
+                new String(System.getenv("SIGNING_KEY")?.decodeBase64() ?: ""),
+                System.getenv("SIGNING_PASSPHRASE"),
+        )
+        sign(publishing.publications)
+    }
+}
