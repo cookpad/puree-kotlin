@@ -1,0 +1,53 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.cookpad.puree.kotlin.output////PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/index.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedLog///PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-log/index.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedLog/PureeBufferedLog/#kotlin.Long#java.time.Instant#org.json.JSONObject/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-log/-puree-buffered-log.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedLog/createdAt/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-log/created-at.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedLog/id/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-log/id.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedLog/log/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-log/log.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput///PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/index.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/PureeBufferedOutput/#kotlin.String/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/-puree-buffered-output.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/emit/#kotlin.collections.List[org.json.JSONObject]#kotlin.Function0[kotlin.Unit]#kotlin.Function1[kotlin.Throwable,kotlin.Unit]/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/emit.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/emit/#org.json.JSONObject/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/emit.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/exponentialBackoffBase/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/exponential-backoff-base.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/flushInterval/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/flush-interval.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/logsPerFlush/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/logs-per-flush.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/maxFlushSizeInBytes/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/max-flush-size-in-bytes.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/maxRetryCount/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/max-retry-count.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeBufferedOutput/purgeableAge/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-buffered-output/purgeable-age.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeOutput///PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-output/index.html
+$dokka.location:com.cookpad.puree.kotlin.output/PureeOutput/emit/#org.json.JSONObject/PointingToDeclaration/puree/com.cookpad.puree.kotlin.output/-puree-output/emit.html
+$dokka.location:com.cookpad.puree.kotlin.serializer////PointingToDeclaration/puree/com.cookpad.puree.kotlin.serializer/index.html
+$dokka.location:com.cookpad.puree.kotlin.serializer/PureeLogSerializer///PointingToDeclaration/puree/com.cookpad.puree.kotlin.serializer/-puree-log-serializer/index.html
+$dokka.location:com.cookpad.puree.kotlin.serializer/PureeLogSerializer/serialize/#com.cookpad.puree.kotlin.PureeLog/PointingToDeclaration/puree/com.cookpad.puree.kotlin.serializer/-puree-log-serializer/serialize.html
+$dokka.location:com.cookpad.puree.kotlin.store////PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/index.html
+$dokka.location:com.cookpad.puree.kotlin.store/DbPureeLogStore///PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-db-puree-log-store/index.html
+$dokka.location:com.cookpad.puree.kotlin.store/DbPureeLogStore/DbPureeLogStore/#android.content.Context#kotlin.String/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-db-puree-log-store/-db-puree-log-store.html
+$dokka.location:com.cookpad.puree.kotlin.store/DbPureeLogStore/add/#kotlin.String#com.cookpad.puree.kotlin.output.PureeBufferedLog/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-db-puree-log-store/add.html
+$dokka.location:com.cookpad.puree.kotlin.store/DbPureeLogStore/get/#kotlin.String#kotlin.Int/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-db-puree-log-store/get.html
+$dokka.location:com.cookpad.puree.kotlin.store/DbPureeLogStore/purgeLogsWithAge/#kotlin.String#java.time.Instant#java.time.Duration/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-db-puree-log-store/purge-logs-with-age.html
+$dokka.location:com.cookpad.puree.kotlin.store/DbPureeLogStore/remove/#kotlin.String#kotlin.collections.List[com.cookpad.puree.kotlin.output.PureeBufferedLog]/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-db-puree-log-store/remove.html
+$dokka.location:com.cookpad.puree.kotlin.store/PureeLogStore///PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-puree-log-store/index.html
+$dokka.location:com.cookpad.puree.kotlin.store/PureeLogStore/add/#kotlin.String#com.cookpad.puree.kotlin.output.PureeBufferedLog/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-puree-log-store/add.html
+$dokka.location:com.cookpad.puree.kotlin.store/PureeLogStore/get/#kotlin.String#kotlin.Int/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-puree-log-store/get.html
+$dokka.location:com.cookpad.puree.kotlin.store/PureeLogStore/purgeLogsWithAge/#kotlin.String#java.time.Instant#java.time.Duration/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-puree-log-store/purge-logs-with-age.html
+$dokka.location:com.cookpad.puree.kotlin.store/PureeLogStore/remove/#kotlin.String#kotlin.collections.List[com.cookpad.puree.kotlin.output.PureeBufferedLog]/PointingToDeclaration/puree/com.cookpad.puree.kotlin.store/-puree-log-store/remove.html
+$dokka.location:com.cookpad.puree.kotlin////PointingToDeclaration/puree/com.cookpad.puree.kotlin/index.html
+$dokka.location:com.cookpad.puree.kotlin/PureeFilter///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-filter/index.html
+$dokka.location:com.cookpad.puree.kotlin/PureeFilter/applyFilter/#org.json.JSONObject/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-filter/apply-filter.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLog///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-log/index.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/index.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/Builder/#androidx.lifecycle.Lifecycle#com.cookpad.puree.kotlin.serializer.PureeLogSerializer#com.cookpad.puree.kotlin.store.PureeLogStore/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/-builder.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/build/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/build.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/filter/#com.cookpad.puree.kotlin.PureeFilter#kotlin.Array[java.lang.Class[kotlin.Any]]/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/filter.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/output/#com.cookpad.puree.kotlin.output.PureeOutput#kotlin.Array[java.lang.Class[kotlin.Any]]/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/output.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.LogNotRegisteredException///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-log-not-registered-exception/index.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.LogNotRegisteredException/LogNotRegisteredException/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-log-not-registered-exception/-log-not-registered-exception.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/index.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger/postLog/#com.cookpad.puree.kotlin.PureeLog/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/post-log.html
+com.cookpad.puree.kotlin
+com.cookpad.puree.kotlin.output
+com.cookpad.puree.kotlin.serializer
+com.cookpad.puree.kotlin.store
+
