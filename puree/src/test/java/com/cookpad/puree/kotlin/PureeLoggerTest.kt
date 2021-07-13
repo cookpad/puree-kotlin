@@ -6,6 +6,7 @@ import com.cookpad.puree.kotlin.output.PureeOutput
 import com.cookpad.puree.kotlin.rule.LifecycleCoroutineRule
 import com.cookpad.puree.kotlin.store.PureeLogStore
 import io.mockk.MockKAnnotations
+import io.mockk.coVerifyOrder
 import io.mockk.every
 import io.mockk.excludeRecords
 import io.mockk.impl.annotations.MockK
@@ -127,6 +128,31 @@ class PureeLoggerTest {
             bufferedOutput.resume()
             bufferedOutput.suspend()
             bufferedOutput.resume()
+        }
+    }
+
+    @Test
+    fun flush() {
+        // given
+        val outputs = (1..5).toList().map { index ->
+            mockk<PureeBufferedOutput>(relaxed = true) {
+                every { uniqueId } returns "buffered_output_$index"
+            }
+        }
+        val puree = createPureeBuilder().apply {
+            outputs.forEach {
+                output(it, SampleLog::class.java)
+            }
+        }.build()
+
+        // when
+        puree.flush()
+
+        // then
+        coVerifyOrder {
+            outputs.forEach {
+                it.flush()
+            }
         }
     }
 

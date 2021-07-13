@@ -49,7 +49,7 @@ class PureeLogger private constructor(
     private val logStore: PureeLogStore,
     private val dispatcher: CoroutineDispatcher,
     private val clock: Clock,
-    private val registeredLogs: Map<Class<out Any>, Configuration>,
+    private val registeredLogs: Map<Class<out PureeLog>, Configuration>,
     private val bufferedOutputs: List<PureeBufferedOutput>
 ) {
     private val scope: CoroutineScope = CoroutineScope(dispatcher + CoroutineExceptionHandler { _, throwable ->
@@ -99,6 +99,17 @@ class PureeLogger private constructor(
 
             config.outputs.forEach {
                 it.emit(logJson)
+            }
+        }
+    }
+
+    /**
+     * Force-flush all of the buffered logs regardless of the flush interval
+     */
+    fun flush() {
+        scope.launch {
+            bufferedOutputs.forEach {
+                it.flush()
             }
         }
     }
@@ -188,7 +199,7 @@ class PureeLogger private constructor(
         @VisibleForTesting
         internal var clock: Clock = Clock.systemUTC()
 
-        private val configuredLogs: MutableMap<Class<out Any>, Configuration> = mutableMapOf()
+        private val configuredLogs: MutableMap<Class<out PureeLog>, Configuration> = mutableMapOf()
         private val outputIds: MutableSet<String> = mutableSetOf()
         private val bufferedOutputs: MutableList<PureeBufferedOutput> = mutableListOf()
 
@@ -199,7 +210,7 @@ class PureeLogger private constructor(
          * @param logTypes The log types of the objects on which the [PureeFilter] will be applied. If a type is included more
          * than once, the [PureeFilter] will be applied multiple times.
          */
-        fun filter(filter: PureeFilter, vararg logTypes: Class<out Any>): Builder {
+        fun filter(filter: PureeFilter, vararg logTypes: Class<out PureeLog>): Builder {
             logTypes.forEach {
                 configuredLogs.getOrPut(it, { Configuration() }).filters.add(filter)
             }
@@ -214,10 +225,7 @@ class PureeLogger private constructor(
          * [PureeOutput] should be registered and duplicates are ignored.
          * @param logTypes The log types of the objects that will be sent to the [PureeOutput].
          */
-        fun output(
-            output: PureeOutput,
-            vararg logTypes: Class<out Any>
-        ): Builder {
+        fun output(output: PureeOutput,vararg logTypes: Class<out PureeLog>): Builder {
             if (output is PureeBufferedOutput) {
                 if (output.uniqueId in outputIds) {
                     throw IllegalArgumentException("Cannot register another PureeBufferedOutput with uniqueId: ${output.uniqueId}.")
