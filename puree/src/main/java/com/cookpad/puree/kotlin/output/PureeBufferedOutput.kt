@@ -156,8 +156,7 @@ abstract class PureeBufferedOutput(
      *
      * @see resume
      */
-    @VisibleForTesting
-    protected suspend fun flush() {
+    internal suspend fun flush() {
         purgeableAge?.let {
             logStore.purgeLogsWithAge(uniqueId, Instant.now(clock), it)
         }

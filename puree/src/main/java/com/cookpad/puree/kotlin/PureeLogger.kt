@@ -104,6 +104,17 @@ class PureeLogger private constructor(
     }
 
     /**
+     * Force-flush all of the buffered logs regardless of the flush interval
+     */
+    fun flush() {
+        scope.launch {
+            bufferedOutputs.forEach {
+                it.flush()
+            }
+        }
+    }
+
+    /**
      * Suspends the background process that periodically emits buffered logs if a [PureeBufferedOutput] is registered
      * through [Builder]. This is called when the [Lifecycle]'s state changes to [Lifecycle.Event.ON_STOP]
      *

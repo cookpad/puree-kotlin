@@ -351,6 +351,52 @@ class PureeLoggerIntegrationTest {
                     jsonStringOf("sequence" to 2)
                 )
         }
+
+        fun flush() {
+            // given
+            val outputEvery5s = TestRecordedBufferedOutput(
+                uniqueId = "output_every_5s",
+                flushInterval = Duration.ofSeconds(5)
+            )
+            val outputEvery10s = TestRecordedBufferedOutput(
+                uniqueId = "output_every_10s",
+                flushInterval = Duration.ofSeconds(10)
+            )
+            val puree = PureeLogger.Builder(
+                lifecycle = lifecycleOwner.lifecycle,
+                logSerializer = SampleLogSerializer(),
+                logStore = logStore
+            ).apply {
+                dispatcher = coroutineDispatcher
+                clock = this@OutputTests.clock
+                output(
+                    outputEvery5s,
+                    SampleLog::class.java
+                )
+                output(
+                    outputEvery10s,
+                    SampleLog::class.java
+                )
+            }.build()
+
+            // when
+            puree.postLog(SampleLog(sequence = 1))
+            assertThat(outputEvery5s.logs).isEmpty()
+            assertThat(outputEvery10s.logs).isEmpty()
+            puree.flush()
+
+            // then
+            assertThat(outputEvery5s.logs).comparingElementsUsing(JSON_TO_STRING)
+                .containsExactly(
+                    jsonStringOf("sequence" to 1),
+                    jsonStringOf("sequence" to 2)
+                )
+            assertThat(outputEvery10s.logs).comparingElementsUsing(JSON_TO_STRING)
+                .containsExactly(
+                    jsonStringOf("sequence" to 1),
+                    jsonStringOf("sequence" to 2)
+                )
+        }
     }
 
     @RunWith(AndroidJUnit4::class)
