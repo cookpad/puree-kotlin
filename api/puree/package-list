@@ -40,11 +40,12 @@ $dokka.location:com.cookpad.puree.kotlin/PureeLog///PointingToDeclaration/puree
 $dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/index.html
 $dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/Builder/#androidx.lifecycle.Lifecycle#com.cookpad.puree.kotlin.serializer.PureeLogSerializer#com.cookpad.puree.kotlin.store.PureeLogStore/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/-builder.html
 $dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/build/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/build.html
-$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/filter/#com.cookpad.puree.kotlin.PureeFilter#kotlin.Array[java.lang.Class[kotlin.Any]]/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/filter.html
-$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/output/#com.cookpad.puree.kotlin.output.PureeOutput#kotlin.Array[java.lang.Class[kotlin.Any]]/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/output.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/filter/#com.cookpad.puree.kotlin.PureeFilter#kotlin.Array[java.lang.Class[com.cookpad.puree.kotlin.PureeLog]]/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/filter.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger.Builder/output/#com.cookpad.puree.kotlin.output.PureeOutput#kotlin.Array[java.lang.Class[com.cookpad.puree.kotlin.PureeLog]]/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-builder/output.html
 $dokka.location:com.cookpad.puree.kotlin/PureeLogger.LogNotRegisteredException///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-log-not-registered-exception/index.html
 $dokka.location:com.cookpad.puree.kotlin/PureeLogger.LogNotRegisteredException/LogNotRegisteredException/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/-log-not-registered-exception/-log-not-registered-exception.html
 $dokka.location:com.cookpad.puree.kotlin/PureeLogger///PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/index.html
+$dokka.location:com.cookpad.puree.kotlin/PureeLogger/flush/#/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/flush.html
 $dokka.location:com.cookpad.puree.kotlin/PureeLogger/postLog/#com.cookpad.puree.kotlin.PureeLog/PointingToDeclaration/puree/com.cookpad.puree.kotlin/-puree-logger/post-log.html
 com.cookpad.puree.kotlin
 com.cookpad.puree.kotlin.output
