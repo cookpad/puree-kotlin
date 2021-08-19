@@ -52,9 +52,10 @@ class PureeLogger private constructor(
     private val registeredLogs: Map<Class<out PureeLog>, Configuration>,
     private val bufferedOutputs: List<PureeBufferedOutput>
 ) {
-    private val scope: CoroutineScope = CoroutineScope(dispatcher + CoroutineExceptionHandler { _, throwable ->
-        Log.e(TAG, "Exception thrown", throwable)
-    })
+    private val scope: CoroutineScope =
+        CoroutineScope(dispatcher + CoroutineExceptionHandler { _, throwable ->
+            Log.e(TAG, "Exception thrown", throwable)
+        })
     private var isResumed: Boolean = false
 
     init {
@@ -225,7 +226,7 @@ class PureeLogger private constructor(
          * [PureeOutput] should be registered and duplicates are ignored.
          * @param logTypes The log types of the objects that will be sent to the [PureeOutput].
          */
-        fun output(output: PureeOutput,vararg logTypes: Class<out PureeLog>): Builder {
+        fun output(output: PureeOutput, vararg logTypes: Class<out PureeLog>): Builder {
             if (output is PureeBufferedOutput) {
                 if (output.uniqueId in outputIds) {
                     throw IllegalArgumentException("Cannot register another PureeBufferedOutput with uniqueId: ${output.uniqueId}.")
@@ -238,6 +239,24 @@ class PureeLogger private constructor(
             logTypes.forEach {
                 configuredLogs.getOrPut(it, { Configuration() }).outputs.add(output)
             }
+
+            return this
+        }
+
+        /**
+         * Registers a log type and associate it with [PureeFilter] and [PureeOutput].
+         *
+         * @param logType The log type to be registered.
+         * @param filters The [PureeFilter]s to use for the log type.
+         * @param outputs The [PureeOutput]s that will emit this log type.
+         */
+        fun logType(
+            logType: Class<out PureeLog>,
+            filters: List<PureeFilter>,
+            outputs: List<PureeOutput>
+        ): Builder {
+            filters.forEach { filter(it, logType) }
+            outputs.forEach { output(it, logType) }
 
             return this
         }
