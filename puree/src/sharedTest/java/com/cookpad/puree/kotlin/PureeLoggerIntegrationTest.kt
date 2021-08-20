@@ -58,17 +58,14 @@ class PureeLoggerIntegrationTest {
             ).apply {
                 dispatcher = coroutineDispatcher
                 clock = this@FilterTests.clock
-                filter(
-                    object : PureeFilter {
+                logType(
+                    logType = SampleLog::class.java,
+                    filters = listOf(object : PureeFilter {
                         override fun applyFilter(log: JSONObject): JSONObject = log.apply {
                             put("filter1", "test_value")
                         }
-                    },
-                    SampleLog::class.java
-                )
-                output(
-                    output,
-                    SampleLog::class.java
+                    }),
+                    outputs = listOf(output)
                 )
             }.build()
 
@@ -136,25 +133,21 @@ class PureeLoggerIntegrationTest {
             ).apply {
                 dispatcher = coroutineDispatcher
                 clock = this@FilterTests.clock
-                filter(
-                    object : PureeFilter {
-                        override fun applyFilter(log: JSONObject): JSONObject = log.apply {
-                            put("filter1", "test_value")
+                logType(
+                    logType = SampleLog::class.java,
+                    filters = listOf(
+                        object : PureeFilter {
+                            override fun applyFilter(log: JSONObject): JSONObject = log.apply {
+                                put("filter1", "test_value")
+                            }
+                        },
+                        object : PureeFilter {
+                            override fun applyFilter(log: JSONObject): JSONObject = log.apply {
+                                put("filter2", "test_value")
+                            }
                         }
-                    },
-                    SampleLog::class.java
-                )
-                filter(
-                    object : PureeFilter {
-                        override fun applyFilter(log: JSONObject): JSONObject = log.apply {
-                            put("filter2", "test_value")
-                        }
-                    },
-                    SampleLog::class.java
-                )
-                output(
-                    output,
-                    SampleLog::class.java
+                    ),
+                    outputs = listOf(output)
                 )
             }.build()
 
@@ -183,25 +176,22 @@ class PureeLoggerIntegrationTest {
             ).apply {
                 dispatcher = coroutineDispatcher
                 clock = this@FilterTests.clock
-                filter(
-                    object : PureeFilter {
-                        override fun applyFilter(log: JSONObject): JSONObject = log.apply {
-                            put("filter1", "test_value")
+                logType(
+                    logType = SampleLog::class.java,
+                    filters = listOf(
+                        object : PureeFilter {
+                            override fun applyFilter(log: JSONObject): JSONObject = log.apply {
+                                put("filter1", "test_value")
+                            }
+                        },
+                        object : PureeFilter {
+                            override fun applyFilter(log: JSONObject): JSONObject =
+                                JSONObject().apply {
+                                    put("filter2", "test_value")
+                                }
                         }
-                    },
-                    SampleLog::class.java
-                )
-                filter(
-                    object : PureeFilter {
-                        override fun applyFilter(log: JSONObject): JSONObject = JSONObject().apply {
-                            put("filter2", "test_value")
-                        }
-                    },
-                    SampleLog::class.java
-                )
-                output(
-                    output,
-                    SampleLog::class.java
+                    ),
+                    outputs = listOf(output)
                 )
             }.build()
 
@@ -251,13 +241,10 @@ class PureeLoggerIntegrationTest {
             ).apply {
                 dispatcher = coroutineDispatcher
                 clock = this@OutputTests.clock
-                output(
-                    output1,
-                    SampleLog::class.java
-                )
-                output(
-                    output2,
-                    SampleLog::class.java
+                logType(
+                    logType = SampleLog::class.java,
+                    filters = emptyList(),
+                    outputs = listOf(output1, output2)
                 )
             }.build()
 
@@ -315,13 +302,10 @@ class PureeLoggerIntegrationTest {
             ).apply {
                 dispatcher = coroutineDispatcher
                 clock = this@OutputTests.clock
-                output(
-                    outputEvery1s,
-                    SampleLog::class.java
-                )
-                output(
-                    outputEvery2s,
-                    SampleLog::class.java
+                logType(
+                    logType = SampleLog::class.java,
+                    filters = emptyList(),
+                    outputs = listOf(outputEvery1s, outputEvery2s)
                 )
             }.build()
 
@@ -369,13 +353,10 @@ class PureeLoggerIntegrationTest {
             ).apply {
                 dispatcher = coroutineDispatcher
                 clock = this@OutputTests.clock
-                output(
-                    outputEvery5s,
-                    SampleLog::class.java
-                )
-                output(
-                    outputEvery10s,
-                    SampleLog::class.java
+                logType(
+                    logType = SampleLog::class.java,
+                    filters = emptyList(),
+                    outputs = listOf(outputEvery5s, outputEvery10s)
                 )
             }.build()
 
