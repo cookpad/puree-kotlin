@@ -41,23 +41,19 @@ class DemoApp : Application() {
         )
             .filter(
                 AddTimeFilter(),
-                ClickLog::class.java, MenuLog::class.java
+                ClickLog::class.java, MenuLog::class.java, PeriodicLog::class.java
             )
             .output(
                 LogcatOutput(),
-                ClickLog::class.java, MenuLog::class.java
+                ClickLog::class.java, MenuLog::class.java, PeriodicLog::class.java
             )
             .output(
                 LogcatDebugBufferedOutput("logcat_debug"),
                 ClickLog::class.java, MenuLog::class.java
             )
-            .logType(
-                logType = PeriodicLog::class.java,
-                filters = listOf(AddTimeFilter()),
-                outputs = listOf(
-                    LogcatOutput(),
-                    PurgeableLogcatWarningBufferedOutput("logcat_warning")
-                )
+            .output(
+                PurgeableLogcatWarningBufferedOutput("logcat_warning"),
+                PeriodicLog::class.java
             )
             .build()
     }
