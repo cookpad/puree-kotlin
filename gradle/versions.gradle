@@ -9,7 +9,7 @@ ext.libVersions = [
         'json': '20250107',
         'testCore': '1.6.1',
         'robolectric': '4.14.1',
-        'mockk': '1.11.0',
+        'mockk': '1.13.17',
         'testJunit': '1.2.1',
         'testRunner': '1.6.2',
         'testRules': '1.6.1'

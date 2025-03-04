@@ -10,6 +10,8 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.spyk
 import io.mockk.verify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runTest
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Rule
@@ -54,28 +56,28 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun suspend() {
+    fun suspend() = runTest(rule.coroutineDispatcher) {
         // given
         val output = spyk<PureeBufferedOutput>(output, recordPrivateCalls = true)
 
         // when
         output.suspend()
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
 
         // then
         verify(exactly = 0) { output["flush"]() }
     }
 
     @Test
-    fun resume() {
+    fun resume() = runTest(rule.coroutineDispatcher) {
         // given
         val output = spyk(output, recordPrivateCalls = true)
 
         // when
         output.suspend()
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
 
         // then
@@ -85,7 +87,7 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun flush() {
+    fun flush() = runTest(rule.coroutineDispatcher) {
         // given
         val output = spyk(output)
         val logs = listOf(jsonOf("key" to "value"))
@@ -94,7 +96,7 @@ class PureeBufferedOutputTest {
 
         // when
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
 
         // then
@@ -105,7 +107,7 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun flush_purge() {
+    fun flush_purge() = runTest(rule.coroutineDispatcher) {
         // given
         output.purgeableAge = Duration.ofSeconds(20)
         val output = spyk(output)
@@ -115,7 +117,7 @@ class PureeBufferedOutputTest {
 
         // when
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
 
         // then
@@ -127,14 +129,14 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun flush_empty() {
+    fun flush_empty() = runTest(rule.coroutineDispatcher) {
         // given
         val output = spyk(output)
         every { logStore.get("output", 100) } returns emptyList()
 
         // when
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
 
         // then
@@ -145,7 +147,7 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun flush_maxFlushSizeInBytes() {
+    fun flush_maxFlushSizeInBytes() = runTest(rule.coroutineDispatcher) {
         // given
         val output = spyk(output)
         val log1 = jsonOf("key" to "value".repeat(100))
@@ -156,7 +158,7 @@ class PureeBufferedOutputTest {
 
         // when
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
 
         // then
@@ -167,7 +169,7 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun flush_failed() {
+    fun flush_failed() = runTest(rule.coroutineDispatcher) {
         // given
         val output = spyk(output) {
             every { emit(any(), any(), any()) } answers { arg<(Throwable) -> Unit>(2).invoke(IOException()) }
@@ -178,7 +180,7 @@ class PureeBufferedOutputTest {
 
         // when
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
 
         // then
@@ -189,7 +191,7 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun flush_failedThenRetry() {
+    fun flush_failedThenRetry() = runTest(rule.coroutineDispatcher) {
         // given
         val output = spyk(output) {
             every { emit(any(), any(), any()) } answers {
@@ -204,10 +206,10 @@ class PureeBufferedOutputTest {
 
         // when
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.exponentialBackoffBase.toMillis())
+        advanceTimeBy(output.exponentialBackoffBase.toMillis())
 
         // then
         verify(exactly = 2) { output.emit(logs, any(), any()) }
@@ -217,9 +219,9 @@ class PureeBufferedOutputTest {
     }
 
     @Test
-    fun flush_failedMaxRetry() {
+    fun flush_failedMaxRetry() = runTest(rule.coroutineDispatcher) {
         // given
-        this.output.flushInterval
+        output.flushInterval
         val output = spyk(output) {
             every { emit(any(), any(), any()) } answers { arg<(Throwable) -> Unit>(2).invoke(IOException()) }
         }
@@ -229,15 +231,15 @@ class PureeBufferedOutputTest {
 
         // when
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
         output.resume()
         repeat(output.maxRetryCount) {
             val step = output.exponentialBackoffBase.multipliedBy(2.0.pow((it).toDouble()).toLong())
             clock.updateTime(step)
-            rule.coroutineDispatcher.advanceTimeBy(step.toMillis())
+            advanceTimeBy(step.toMillis())
         }
         clock.updateTime(output.flushInterval)
-        rule.coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+        advanceTimeBy(output.flushInterval.toMillis())
 
         // then
         // initial flush (1) + maxRetryCount (default 5) + regular flush (1)
@@ -264,4 +266,3 @@ class PureeBufferedOutputTest {
         }
     }
 }
-
