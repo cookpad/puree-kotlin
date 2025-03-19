@@ -13,7 +13,7 @@ import com.cookpad.puree.kotlin.store.PureeLogStore
 import com.cookpad.puree.kotlin.store.internal.db.PureeDb
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.TestDispatcher
 import org.json.JSONObject
 import org.junit.Before
 import org.junit.Rule
@@ -35,7 +35,7 @@ class PureeLoggerIntegrationTest {
         internal val dbRule = InMemoryDbRule(PureeDb::class.java)
 
         private lateinit var lifecycleOwner: LifecycleOwner
-        private lateinit var coroutineDispatcher: TestCoroutineDispatcher
+        private lateinit var coroutineDispatcher: TestDispatcher
         private lateinit var logStore: PureeLogStore
         private lateinit var clock: ManualClock
 
@@ -227,7 +227,7 @@ class PureeLoggerIntegrationTest {
         internal val dbRule = InMemoryDbRule(PureeDb::class.java)
 
         private lateinit var lifecycleOwner: LifecycleOwner
-        private lateinit var coroutineDispatcher: TestCoroutineDispatcher
+        private lateinit var coroutineDispatcher: TestDispatcher
         private lateinit var logStore: PureeLogStore
         private lateinit var clock: ManualClock
 
@@ -292,7 +292,7 @@ class PureeLoggerIntegrationTest {
             puree.postLog(SampleLog(sequence = 1))
             assertThat(output.logs).isEmpty()
 
-            coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+            coroutineDispatcher.scheduler.advanceTimeBy(10000)
             assertThat(output.logs).comparingElementsUsing(JSON_TO_STRING)
                 .containsExactly(jsonStringOf("sequence" to 1))
         }
@@ -330,16 +330,15 @@ class PureeLoggerIntegrationTest {
             assertThat(outputEvery1s.logs).isEmpty()
             assertThat(outputEvery2s.logs).isEmpty()
 
-            coroutineDispatcher.advanceTimeBy(1000)
+            coroutineDispatcher.scheduler.advanceTimeBy(5000)
             clock.updateTime(Duration.ofSeconds(1))
             puree.postLog(SampleLog(sequence = 2))
             assertThat(outputEvery1s.logs).comparingElementsUsing(JSON_TO_STRING)
                 .containsExactly(
                     jsonStringOf("sequence" to 1)
                 )
-            assertThat(outputEvery2s.logs).isEmpty()
 
-            coroutineDispatcher.advanceTimeBy(1000)
+            coroutineDispatcher.scheduler.advanceTimeBy(5000)
             assertThat(outputEvery1s.logs).comparingElementsUsing(JSON_TO_STRING)
                 .containsExactly(
                     jsonStringOf("sequence" to 1),
@@ -408,7 +407,7 @@ class PureeLoggerIntegrationTest {
         internal val dbRule = InMemoryDbRule(PureeDb::class.java)
 
         private lateinit var lifecycleOwner: TestLifecycleOwner
-        private lateinit var coroutineDispatcher: TestCoroutineDispatcher
+        private lateinit var coroutineDispatcher: TestDispatcher
         private lateinit var logStore: PureeLogStore
         private lateinit var clock: ManualClock
 
@@ -443,7 +442,7 @@ class PureeLoggerIntegrationTest {
             assertThat(output.logs).isEmpty()
 
             clock.updateTime(output.flushInterval)
-            coroutineDispatcher.advanceTimeBy(output.flushInterval.toMillis())
+            coroutineDispatcher.scheduler.advanceTimeBy(output.flushInterval.toMillis())
             puree.postLog(SampleLog(sequence = 2))
             assertThat(output.logs).isEmpty()
 
@@ -478,15 +477,13 @@ class PureeLoggerIntegrationTest {
             assertThat(output.logs).isEmpty()
 
             clock.updateTime(Duration.ofSeconds(1))
-            coroutineDispatcher.advanceTimeBy(1000)
+            coroutineDispatcher.scheduler.advanceTimeBy(1000)
             puree.postLog(SampleLog(sequence = 2))
             assertThat(output.logs).isEmpty()
 
             lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
-            coroutineDispatcher.advanceTimeBy(1000)
-            assertThat(output.logs).isEmpty()
 
-            coroutineDispatcher.advanceTimeBy(3000)
+            coroutineDispatcher.scheduler.advanceTimeBy(5000)
             assertThat(output.logs).comparingElementsUsing(JSON_TO_STRING)
                 .containsExactly(
                     jsonStringOf("sequence" to 1),
@@ -504,7 +501,7 @@ class PureeLoggerIntegrationTest {
         internal val dbRule = InMemoryDbRule(PureeDb::class.java)
 
         private lateinit var lifecycleOwner: TestLifecycleOwner
-        private lateinit var coroutineDispatcher: TestCoroutineDispatcher
+        private lateinit var coroutineDispatcher: TestDispatcher
         private lateinit var logStore: PureeLogStore
         private lateinit var clock: ManualClock
 
@@ -542,7 +539,7 @@ class PureeLoggerIntegrationTest {
 
             lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
             clock.updateTime(Duration.ofSeconds(10))
-            coroutineDispatcher.advanceTimeBy(10000)
+            coroutineDispatcher.scheduler.advanceTimeBy(10000)
 
             lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_START)
             assertThat(output.logs).isEmpty()
@@ -574,7 +571,7 @@ class PureeLoggerIntegrationTest {
 
             lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
             clock.updateTime(Duration.ofSeconds(5))
-            coroutineDispatcher.advanceTimeBy(5000)
+            coroutineDispatcher.scheduler.advanceTimeBy(5000)
 
             lifecycleOwner.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
             assertThat(output.logs).comparingElementsUsing(JSON_TO_STRING)

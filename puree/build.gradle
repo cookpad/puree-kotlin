@@ -8,11 +8,13 @@ plugins {
 apply from: '../gradle/publishing.gradle'
 
 android {
-    compileSdkVersion 30
+    namespace "com.cookpad.puree.kotlin"
+
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 34
         versionName publication.version.name
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -34,12 +36,13 @@ android {
 
     compileOptions {
         coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
         freeCompilerArgs += "-Xopt-in=kotlin.RequiresOptIn"
+        jvmTarget = '17'
     }
 
     sourceSets {

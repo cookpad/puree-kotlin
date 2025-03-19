@@ -165,4 +165,3 @@ class PureeLoggerTest {
         clock = this@PureeLoggerTest.clock
     }
 }
-
