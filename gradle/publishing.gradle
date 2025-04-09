@@ -43,7 +43,6 @@ afterEvaluate {
                     version = publication.versionName
                 }
 
-                artifact(sourceJar).builtBy(sourceJar)
                 artifact(tasks["dokkaJavadocJar"]).builtBy(tasks["dokkaJavadocJar"])
 
 
