@@ -16,4 +16,4 @@ ext.libVersions = [
 ]
 
 ext.kotlinVersion = libVersions.kotlin
-ext.dokkaVersion = '1.4.32'
+ext.dokkaVersion = '2.0.0'

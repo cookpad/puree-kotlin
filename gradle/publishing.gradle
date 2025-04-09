@@ -23,9 +23,10 @@ task sourceJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
 }
 
-task dokkaJar(type: Jar, dependsOn: dokkaJavadoc) {
-    archiveClassifier.set("javadoc")
-    from dokkaJavadoc.outputDirectory
+tasks.register('dokkaJavadocJar', Jar) {
+    description = 'A Javadoc JAR containing Dokka Javadoc'
+    from(tasks.dokkaGeneratePublicationJavadoc { it.outputDirectory })
+    archiveClassifier.set('javadoc')
 }
 
 afterEvaluate {
@@ -42,8 +43,9 @@ afterEvaluate {
                     version = publication.versionName
                 }
 
-                artifact(sourceJar)
-                artifact(dokkaJar)
+                artifact(sourceJar).builtBy(sourceJar)
+                artifact(tasks["dokkaJavadocJar"]).builtBy(tasks["dokkaJavadocJar"])
+
 
                 pom {
                     name = publication.artifactId
@@ -91,5 +93,14 @@ signing {
                 System.getenv("SIGNING_PASSPHRASE"),
         )
         sign(publishing.publications)
+    }
+}
+
+afterEvaluate {
+    def metadataTask = tasks.findByName("generateMetadataFileForReleasePublication")
+    def sourceJarTask = tasks.findByName("sourceJar")
+
+    if (metadataTask != null && sourceJarTask != null) {
+        metadataTask.dependsOn(sourceJarTask)
     }
 }

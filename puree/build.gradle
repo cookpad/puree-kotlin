@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'org.jetbrains.dokka' version "$dokkaVersion"
+    id 'org.jetbrains.dokka-javadoc' version "$dokkaVersion"
 }
 
 apply from: '../gradle/publishing.gradle'
