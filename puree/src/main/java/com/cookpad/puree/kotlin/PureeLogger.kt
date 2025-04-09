@@ -12,6 +12,7 @@ import com.cookpad.puree.kotlin.store.PureeLogStore
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.launch
 import java.time.Clock
@@ -52,7 +53,7 @@ class PureeLogger private constructor(
     private val registeredLogs: Map<Class<out PureeLog>, Configuration>,
     private val bufferedOutputs: List<PureeBufferedOutput>
 ) {
-    private val scope: CoroutineScope = CoroutineScope(dispatcher + CoroutineExceptionHandler { _, throwable ->
+    private val scope: CoroutineScope = CoroutineScope(SupervisorJob() + dispatcher + CoroutineExceptionHandler { _, throwable ->
         Log.e(TAG, "Exception thrown", throwable)
     })
     private var isResumed: Boolean = false
